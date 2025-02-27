@@ -63,6 +63,14 @@ public class BookingsController
 	    return ResponseEntity.status(HttpStatus.CREATED).body(res);
 	}
 
+
+
+	@GetMapping("/viewAllBooking")
+	public ResponseEntity<List<Map<String,String>>> viewAllCars()
+	{
+		List<Map<String,String>> list = bookingsRepo.getAllBookings();
+		return ResponseEntity.ok(list);
+	}
 	
 }
 
