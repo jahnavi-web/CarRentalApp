@@ -51,9 +51,8 @@ public class CarsControllers
     }
 
     @GetMapping("/viewAvailableCars")
-    public ResponseEntity<List<Map<String,String>>> viewAvailableCars()
-    {
-        List<Map<String,String>> list = carsRepo.getAvailableCars();
+    public ResponseEntity<List<Map<String, String>>> viewAvailableCars() {
+        List<Map<String, String>> list = carsRepo.getAvailableCars();
         return ResponseEntity.ok(list);
     }
 }
