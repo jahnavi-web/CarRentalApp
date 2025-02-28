@@ -19,6 +19,8 @@ public class UsersController
 {
     @Autowired
     UsersRepository userRepo;
+
+    // Sign up
     @PostMapping("/register")
     public ResponseEntity<Users> addUser(@RequestBody Users user)
     {
@@ -26,7 +28,7 @@ public class UsersController
         return ResponseEntity.ok(userObj);
 
     }
-
+// login
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> signIn(@RequestBody Users user)
     {

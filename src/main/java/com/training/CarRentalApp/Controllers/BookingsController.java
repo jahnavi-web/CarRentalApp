@@ -25,11 +25,11 @@ public class BookingsController
 	BookingsRepository bookingsRepo;
 	
 	@Autowired
-    CarsRepository carsRepo;
+   	 CarsRepository carsRepo;
 	
 
 	
-	
+	// While booking we are calculating price
 	@PostMapping("/createBooking")
 	public ResponseEntity<Map<String, String>> createBooking(@RequestBody Bookings booking) {
 	    List<Map<String, String>> c = carsRepo.getCarById(booking.getCar_id());
