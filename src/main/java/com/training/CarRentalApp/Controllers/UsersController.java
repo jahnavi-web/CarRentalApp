@@ -1,3 +1,5 @@
+package com.training.CarRentalApp.Controllers;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,15 @@ import com.training.CarRentalApp.Repositories.UsersRepository;
 @RestController
 public class UsersController
 {
+    @Autowired
+    UsersRepository userRepo;
+    @PostMapping("/register")
+    public ResponseEntity<Users> addUser(@RequestBody Users user)
+    {
+        Users userObj = userRepo.save(user);
+        return ResponseEntity.ok(userObj);
 
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> signIn(@RequestBody Users user)
