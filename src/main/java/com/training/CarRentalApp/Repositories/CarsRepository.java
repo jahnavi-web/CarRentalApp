@@ -21,7 +21,10 @@ public interface CarsRepository extends JpaRepository<Cars,Long>
     @Query(value = "select * from Cars", nativeQuery = true)
     List<Map<String, String>> getAllCars();
 
-    @Query(value = "select * from Cars where availability = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM Cars c WHERE NOT EXISTS " +
+            "(SELECT 1 FROM Bookings b WHERE b.car_id = c.car_id " +
+            "AND CURRENT_DATE BETWEEN b.from_date AND b.to_date)", nativeQuery = true)
     List<Map<String, String>> getAvailableCars();
+
 
 }
