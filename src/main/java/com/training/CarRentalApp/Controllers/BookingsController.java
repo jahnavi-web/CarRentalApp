@@ -29,12 +29,54 @@ public class BookingsController {
     @Autowired
     CarsRepository carsRepo;
 
-    // Create Booking with Date-Based Availability
+//    // Create Booking with Date-Based Availability
+//    @PostMapping("/createBooking")
+//    public ResponseEntity<Map<String, String>> createBooking(@RequestBody Bookings booking) {
+//        Optional<Cars> optionalCar = carsRepo.findById(booking.getCar_id());
+//
+//        Map<String, String> res = new HashMap<>();
+//        if (!optionalCar.isPresent()) {
+//            res.put("car", "not available");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+//        }
+//
+//        Cars car = optionalCar.get();
+//        LocalDate fromDate = booking.getFrom_date();
+//        LocalDate toDate = booking.getTo_date();
+//        int days = (int) (1 + ChronoUnit.DAYS.between(fromDate, toDate));
+//
+//        if (days <= 0) {
+//            res.put("Date", "Invalid");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+//        }
+//
+//        // Check for overlapping dates
+//        if (isCarBooked(car, fromDate, toDate)) {
+//            res.put("car", "already booked for selected dates");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+//        }
+//
+//        // Calculate total price
+//        double totalAmount = days * car.getPrice_per_day();
+//        booking.setTotal_amount(totalAmount);
+//
+//        // Save the booking
+//        bookingsRepo.save(booking);
+//
+//        // Block the car for the booking dates
+//        car.addBooking(fromDate, days);
+//        carsRepo.save(car);
+//
+//        res.put("Booking", "Success");
+//        res.put("Total amount", totalAmount + "/-");
+//        return ResponseEntity.status(HttpStatus.CREATED).body(res);
+//    }
+
     @PostMapping("/createBooking")
     public ResponseEntity<Map<String, String>> createBooking(@RequestBody Bookings booking) {
         Optional<Cars> optionalCar = carsRepo.findById(booking.getCar_id());
-
         Map<String, String> res = new HashMap<>();
+
         if (!optionalCar.isPresent()) {
             res.put("car", "not available");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
@@ -50,9 +92,17 @@ public class BookingsController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
         }
 
-        // Check for overlapping dates
-        if (isCarBooked(car, fromDate, toDate)) {
+        // Check if the car is already booked for the selected dates
+        boolean isCarBooked = bookingsRepo.existsByCarIdAndDateRange(booking.getCar_id(), fromDate, toDate);
+        if (isCarBooked) {
             res.put("car", "already booked for selected dates");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+        }
+
+        // Check if the user has already booked another car for the same dates
+        boolean isUserBooked = bookingsRepo.existsByUserIdAndDateRange(booking.getUser_id(), fromDate, toDate);
+        if (isUserBooked) {
+            res.put("user", "already booked another car for selected dates");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
         }
 
@@ -63,27 +113,24 @@ public class BookingsController {
         // Save the booking
         bookingsRepo.save(booking);
 
-        // Block the car for the booking dates
-        car.addBooking(fromDate, days);
-        carsRepo.save(car);
-
         res.put("Booking", "Success");
         res.put("Total amount", totalAmount + "/-");
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
-    private boolean isCarBooked(Cars car, LocalDate fromDate, LocalDate toDate) {
-        for (Map.Entry<LocalDate, Integer> entry : car.getAvailability().entrySet()) {
-            LocalDate bookedStart = entry.getKey();
-            LocalDate bookedEnd = bookedStart.plusDays(entry.getValue() - 1);
 
-            // Check if new booking overlaps with existing one
-            if (!(toDate.isBefore(bookedStart) || fromDate.isAfter(bookedEnd))) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean isCarBooked(Cars car, LocalDate fromDate, LocalDate toDate) {
+//        for (Map.Entry<LocalDate, Integer> entry : car.getAvailability().entrySet()) {
+//            LocalDate bookedStart = entry.getKey();
+//            LocalDate bookedEnd = bookedStart.plusDays(entry.getValue() - 1);
+//
+//            // Check if new booking overlaps with existing one
+//            if (!(toDate.isBefore(bookedStart) || fromDate.isAfter(bookedEnd))) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     @GetMapping("/viewAllBooking")
     public ResponseEntity<List<Map<String, String>>> viewAllCars() {
