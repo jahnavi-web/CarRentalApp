@@ -23,8 +23,8 @@ public class Users
     @JsonProperty("password")
     private String password;
 
-    @JsonProperty("aadhar")
-    private String aadhar;
+    @JsonProperty("dl")
+    private String dl;
 
     @JsonProperty("phone")
     private Long phone;
@@ -64,12 +64,12 @@ public class Users
         this.password = password;
     }
 
-    public String getAadhar() {
-        return aadhar;
+    public String getDl() {
+        return dl;
     }
 
-    public void setAadhar(String aadhar) {
-        this.aadhar = aadhar;
+    public void setDl(String aadhar) {
+        this.dl = aadhar;
     }
 
     public Long getPhone() {
@@ -93,14 +93,14 @@ public class Users
         // TODO Auto-generated constructor stub
     }
 
-    public Users(Long user_id, String name, String email, String password, String aadhar, Long phone,
+    public Users(Long user_id, String name, String email, String password, String dl, Long phone,
                  String profile_pic) {
         super();
         this.user_id = user_id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.aadhar = aadhar;
+        this.dl = dl;
         this.phone = phone;
         this.profile_pic = profile_pic;
     }

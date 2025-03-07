@@ -15,7 +15,7 @@ public interface CarsRepository extends JpaRepository<Cars,Long>
     @Query(value = "select * from cars where car_id = ?1", nativeQuery = true)
     List<Map<String, String>> getCarById(Long id);
 
-    @Query(value = "select * from cars where price <= ?1", nativeQuery = true)
+    @Query(value = "select * from cars where price_per_day <= ?1", nativeQuery = true)
     List<Map<String, String>> getCarByPrice(double price);
 
     @Query(value = "select * from Cars", nativeQuery = true)

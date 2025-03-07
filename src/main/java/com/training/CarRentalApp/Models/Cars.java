@@ -28,11 +28,11 @@ public class Cars {
     @JsonProperty("car_image")
     private String car_image;
 
-    @ElementCollection
-    @CollectionTable(name = "car_availability", joinColumns = @JoinColumn(name = "car_id"))
-    @MapKeyColumn(name = "start_date")
-    @Column(name = "days_booked")
-    private Map<LocalDate, Integer> availability = new HashMap<>();
+//    @ElementCollection
+//    @CollectionTable(name = "car_availability", joinColumns = @JoinColumn(name = "car_id"))
+//    @MapKeyColumn(name = "start_date")
+//    @Column(name = "days_booked")
+//    private Map<LocalDate, Integer> availability = new HashMap<>();
 
     // Getters and Setters
     public Long getCar_id() { return car_id; }
@@ -52,9 +52,26 @@ public class Cars {
 
     public String getCar_image() { return car_image; }
     public void setCar_image(String car_image) { this.car_image = car_image; }
+	
+    public Cars() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Cars(Long car_id, String car_name, String fuel_type, int num_seats, double price_per_day, String car_image) {
+		super();
+		this.car_id = car_id;
+		this.car_name = car_name;
+		this.fuel_type = fuel_type;
+		this.num_seats = num_seats;
+		this.price_per_day = price_per_day;
+		this.car_image = car_image;
+	}
+    
+    
 
-    public Map<LocalDate, Integer> getAvailability() { return availability; }
-    public void setAvailability(Map<LocalDate, Integer> availability) { this.availability = availability; }
+//    public Map<LocalDate, Integer> getAvailability() { return availability; }
+//    public void setAvailability(Map<LocalDate, Integer> availability) { this.availability = availability; }
+//
+//    public void addBooking(LocalDate startDate, int days) { this.availability.put(startDate, days); }
 
-    public void addBooking(LocalDate startDate, int days) { this.availability.put(startDate, days); }
 }

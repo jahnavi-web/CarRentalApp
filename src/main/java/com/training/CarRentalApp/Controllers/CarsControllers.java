@@ -16,19 +16,19 @@ import com.training.CarRentalApp.Models.Cars;
 import com.training.CarRentalApp.Repositories.CarsRepository;
 
 @RestController
+@CrossOrigin
 public class CarsControllers
 {
     @Autowired
     CarsRepository carsRepo;
 
     @PostMapping("/addCar")
-    public ResponseEntity<Cars> addCar(@RequestBody Cars car)
-    {
-        Cars cObj = carsRepo.save(car);
-        return ResponseEntity.ok(cObj);
-
+    public ResponseEntity<Cars> addCars(@RequestBody Cars car) {
+        System.out.println(car.toString());
+    	Cars carObj  = carsRepo.save(car);
+        return ResponseEntity.ok(carObj);
     }
-
+    
     @PostMapping("/viewCarById")
     public ResponseEntity<List<Map<String,String>>> viewCarById(@RequestBody Cars car)
     {
