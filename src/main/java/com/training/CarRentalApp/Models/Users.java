@@ -2,6 +2,7 @@ package com.training.CarRentalApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,12 +18,14 @@ public class Users
     @JsonProperty("name")
     private String name;
 
+    @Column(unique =true)
     @JsonProperty("email")
     private String email;
 
     @JsonProperty("password")
     private String password;
 
+    @Column(unique =true)
     @JsonProperty("dl")
     private String dl;
 
@@ -30,6 +33,7 @@ public class Users
     private Long phone;
 
     @JsonProperty("profile_pic")
+    @Column(columnDefinition = "LONGTEXT")
     private String profile_pic;
 
     public Long getUser_id() {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.training.CarRentalApp.Models.Bookings;
 import com.training.CarRentalApp.Models.Cars;
 import com.training.CarRentalApp.Repositories.CarsRepository;
 
@@ -21,6 +22,18 @@ public class CarsControllers
 {
     @Autowired
     CarsRepository carsRepo;
+    
+    
+    
+    @PostMapping("/addCarsAll")
+    public ResponseEntity<List<Cars>> addCarsAll(@RequestBody List<Cars> cars) {
+        System.out.println(cars.toString());
+        List<Cars> savedCars = carsRepo.saveAll(cars);
+        return ResponseEntity.ok(savedCars);
+    }
+    
+    
+    
 
     @PostMapping("/addCar")
     public ResponseEntity<Cars> addCars(@RequestBody Cars car) {
@@ -28,6 +41,8 @@ public class CarsControllers
     	Cars carObj  = carsRepo.save(car);
         return ResponseEntity.ok(carObj);
     }
+    
+    
     
     @PostMapping("/viewCarById")
     public ResponseEntity<List<Map<String,String>>> viewCarById(@RequestBody Cars car)
@@ -50,9 +65,12 @@ public class CarsControllers
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/viewAvailableCars")
-    public ResponseEntity<List<Map<String, String>>> viewAvailableCars() {
-        List<Map<String, String>> list = carsRepo.getAvailableCars();
+    @PostMapping("/viewAvailableCars")
+    public ResponseEntity<List<Map<String, String>>> viewAvailableCars(
+            @RequestBody Bookings booking) {
+
+        List<Map<String, String>> list = carsRepo.getAvailableCars(booking.getFrom_date(), booking.getTo_date());
         return ResponseEntity.ok(list);
     }
+
 }
