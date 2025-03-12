@@ -18,7 +18,7 @@ import com.training.CarRentalApp.Repositories.CarsRepository;
 
 @RestController
 @CrossOrigin
-public class CarsControllers
+public class CarsControllers 
 {
     @Autowired
     CarsRepository carsRepo;
